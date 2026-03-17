@@ -1,5 +1,6 @@
 import React from "react";
-import logo from "../assets/logo.png";   // logo path
+import logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -7,9 +8,9 @@ function Navbar() {
 
       <div className="container">
 
-        {/* LEFT SIDE LOGO */}
+        {/* LOGO */}
 
-        <a className="navbar-brand d-flex align-items-center">
+        <Link to="/" className="navbar-brand d-flex align-items-center">
 
           <img
             src={logo}
@@ -22,7 +23,7 @@ function Navbar() {
             Society Portal
           </span>
 
-        </a>
+        </Link>
 
         {/* MOBILE MENU BUTTON */}
 
@@ -35,28 +36,28 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* RIGHT SIDE MENU */}
+        {/* MENU */}
 
         <div className="collapse navbar-collapse" id="navbarMenu">
 
           <ul className="navbar-nav ms-auto align-items-lg-center">
 
             <li className="nav-item">
-              <a className="nav-link nav-hover">
+              <Link className="nav-link nav-hover" to="/">
                 <i className="bi bi-house-door me-1"></i> Home
-              </a>
+              </Link>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link nav-hover">
+              <Link className="nav-link nav-hover" to="/login">
                 <i className="bi bi-box-arrow-in-right me-1"></i> Login
-              </a>
+              </Link>
             </li>
 
             <li className="nav-item">
-              <a className="btn btn-danger ms-lg-3 mt-2 mt-lg-0 px-4">
+              <Link className="btn btn-danger ms-lg-3 mt-2 mt-lg-0 px-4" to="/register">
                 <i className="bi bi-person-plus me-1"></i> Register
-              </a>
+              </Link>
             </li>
 
           </ul>
