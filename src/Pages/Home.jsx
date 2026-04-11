@@ -58,41 +58,40 @@ function Home() {
     <>
       <Navbar />
 
-      <div className="container py-4 py-md-5">
-        <div className="hero-section">
-          <div className="row align-items-center g-4">
-            <div className="col-12 col-md-6">
-              <h1 className="fw-bold text-danger display-6 display-md-5">
-                <i className="bi bi-buildings-fill me-2"></i>
-                College Society Management Portal
-              </h1>
+    <div className="hero-bg">
+<div className="glass-box"></div>
+  <div className="hero-overlay">
+    <div className="container py-5">
 
-              <p className="lead mt-3 hero-text">
-                Welcome to the Society Management Portal where students explore
-                technical and non-technical societies, participate in events
-                and build leadership skills.
-              </p>
+      <span className="badge bg-danger px-3 py-2 mb-3 hero-badge">
+        🚀 Connect • Create • Lead
+      </span>
 
-              <div className="d-flex flex-column flex-sm-row gap-3 mt-4">
-                <button className="btn btn-danger px-4 py-2">
-                  Explore Societies
-                </button>
-                <button className="btn btn-outline-danger px-4 py-2">
-                  Upcoming Events
-                </button>
-              </div>
-            </div>
+      <h1 className="fw-bold display-4 hero-title">
+        <span className="typing-loop gradient-text">
+          Where Passion Meets Opportunity
+        </span>
+      </h1>
 
-            <div className="col-12 col-md-6 text-center">
-              <img
-                src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1000&q=80"
-                className="img-fluid hero-image"
-                alt="College students"
-              />
-            </div>
-          </div>
-        </div>
+      <p className="lead mt-3 hero-text hero-text-anim text-white">
+        Discover college societies, participate in exciting events,
+        and build skills that shape your future.
+      </p>
+
+      <div className="d-flex flex-column flex-sm-row gap-3 mt-4 hero-buttons">
+        <button className="btn btn-danger px-4 py-2 fw-bold">
+          🚀 Explore Societies
+        </button>
+
+        <button className="btn btn-outline-light px-4 py-2 fw-bold">
+          📅 View Events
+        </button>
       </div>
+
+    </div>
+  </div>
+
+</div>
 
       <div className="container pb-5">
         <h2 className="text-center text-danger mb-4 section-title">
