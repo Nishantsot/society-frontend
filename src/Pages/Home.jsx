@@ -2,55 +2,29 @@ import React from "react";
 import Navbar from "../Components/Navbar";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
+
+import { motion } from "framer-motion";
 
 import "swiper/css";
-import "swiper/css/navigation";
 
 function Home() {
+
   const popularSocieties = [
     {
-      title: "Coding Club",
-      desc: "Programming competitions and hackathons.",
-      img: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80",
+      title: "Robogyan",
+      desc: "The official robotics society of ADGIPS and the oldest tech society of the college, established in 2011 - embodies a rich legacy of innovation, technical excellence, and competitive achievement. Over the years, the society has played a pivotal role in fostering a strong culture of hands-on learning, problem-solving, and technological leadership. Robogyan has earned national recognition by winning the Smart India Hackathon multiple times and securing top positions in national-level robotics competitions hosted at premier IITs across India",
+      img: "robogyan.png",
     },
     {
-      title: "AI & ML Club",
-      desc: "Artificial intelligence and machine learning workshops.",
-      img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80",
+      title: "Avant Grade",
+      desc: "Official art society of ADGIPS, established in 2018, stands as a dynamic collective of creative individuals committed to visual expression, artistic exploration, and cultural engagement. Over the years, the society has cultivated a vibrant space where ideas take form through art, fostering a culture of creativity, collaboration, and experimentation.",
+      img: "avant.png",
     },
     {
-      title: "Dance Club",
-      desc: "Dance performances and cultural competitions.",
-      img: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=900&q=80",
-    },
-    {
-      title: "Photography Club",
-      desc: "Creative photography sessions and exhibitions.",
-      img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=900&q=80",
-    },
-  ];
-
-  const upcomingEvents = [
-    {
-      title: "Hackathon 2025",
-      desc: "Organized by Coding Club",
-      img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
-    },
-    {
-      title: "Dance Competition",
-      desc: "Organized by Dance Club",
-      img: "https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=900&q=80",
-    },
-    {
-      title: "Photography Exhibition",
-      desc: "Organized by Photography Club",
-      img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
-    },
-    {
-      title: "AI Workshop",
-      desc: "Organized by AI & ML Club",
-      img: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80",
+      title: "Confluez",
+      desc: "The official photography society of ADGIPS, founded in 2015 — is one of the most recognized and respected creative communities within the college, with photography at its core.",
+      img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4",
     },
   ];
 
@@ -58,27 +32,44 @@ function Home() {
     <>
       <Navbar />
 
-    <div className="hero-bg">
-<div className="glass-box"></div>
+      <div className="hero-bg">
   <div className="hero-overlay">
-    <div className="container py-5">
+    <div className="container py-5 text-center">
 
-      <span className="badge bg-danger px-3 py-2 mb-3 hero-badge">
-        🚀 Connect • Create • Lead
-      </span>
+      <motion.span
+        className="badge bg-danger px-3 py-2 mb-3"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+       Connect • Create • Lead
+      </motion.span>
 
-      <h1 className="fw-bold display-4 hero-title">
-        <span className="typing-loop gradient-text">
-          Where Passion Meets Opportunity
-        </span>
-      </h1>
+      <motion.h1
+        className="fw-bold hero-title gradient-text"
+        initial={{ opacity: 0, y: 60 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        Where Passion Meets Opportunity
+      </motion.h1>
 
-      <p className="lead mt-3 hero-text hero-text-anim text-white">
+      <motion.p
+        className="hero-text text-white mt-3"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+      >
         Discover college societies, participate in exciting events,
         and build skills that shape your future.
-      </p>
+      </motion.p>
 
-      <div className="d-flex flex-column flex-sm-row gap-3 mt-4 hero-buttons">
+      <motion.div
+        className="d-flex flex-column flex-sm-row gap-3 mt-4 hero-buttons justify-content-center"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
         <button className="btn btn-danger px-4 py-2 fw-bold">
           🚀 Explore Societies
         </button>
@@ -86,108 +77,70 @@ function Home() {
         <button className="btn btn-outline-light px-4 py-2 fw-bold">
           📅 View Events
         </button>
-      </div>
+      </motion.div>
 
     </div>
   </div>
-
 </div>
 
       <div className="container pb-5">
-        <h2 className="text-center text-danger mb-4 section-title">
+
+        <motion.h2
+          className="text-center text-danger mb-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+        >
           Popular Societies
-        </h2>
+        </motion.h2>
 
         <Swiper
-          modules={[Navigation, Autoplay]}
-          navigation
-          autoplay={{ delay: 2500, disableOnInteraction: false }}
-          loop={true}
+          modules={[Autoplay]}
+          autoplay={{ delay: 2500 }}
+          loop
           spaceBetween={20}
           breakpoints={{
-            0: {
-              slidesPerView: 1,
-            },
-            576: {
-              slidesPerView: 1,
-            },
-            768: {
-              slidesPerView: 2,
-            },
-            992: {
-              slidesPerView: 3,
-            },
+            0: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            992: { slidesPerView: 3 },
           }}
         >
           {popularSocieties.map((society, index) => (
             <SwiperSlide key={index}>
-              <div className="card society-card h-100">
+
+              <motion.div
+                className="card society-card h-100"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2 }}
+                whileHover={{ scale: 1.05 }}
+              >
+
                 <img
                   src={society.img}
                   className="card-img-top society-img"
                   alt={society.title}
                 />
+
                 <div className="card-body">
                   <h5 className="card-title">{society.title}</h5>
-                  <p className="card-text">{society.desc}</p>
-                  <button className="btn btn-sm btn-danger">Join Now</button>
+
+                  <p className="card-text">
+                    {society.desc}
+                  </p>
+
+                  
                 </div>
-              </div>
+
+              </motion.div>
+
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
 
-      <div className="container pb-5">
-        <h2 className="text-center text-danger mb-4 section-title">
-          Upcoming Events
-        </h2>
-
-        <Swiper
-          modules={[Navigation, Autoplay]}
-          navigation
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
-          loop={true}
-          spaceBetween={20}
-          breakpoints={{
-            0: {
-              slidesPerView: 1,
-            },
-            576: {
-              slidesPerView: 1,
-            },
-            768: {
-              slidesPerView: 2,
-            },
-            992: {
-              slidesPerView: 3,
-            },
-          }}
-        >
-          {upcomingEvents.map((event, index) => (
-            <SwiperSlide key={index}>
-              <div className="card society-card h-100">
-                <img
-                  src={event.img}
-                  className="card-img-top society-img"
-                  alt={event.title}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{event.title}</h5>
-                  <p className="card-text">{event.desc}</p>
-                  <button className="btn btn-sm btn-outline-danger">
-                    View Details
-                  </button>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-
-      <footer className="footer text-center">
-        <p className="mb-0">© College Societies Management Portal</p>
-      </footer>
+      <footer className="footer-box">
+  <p className="mb-0">© ADGIPS Societies Management Portal</p>
+</footer>
     </>
   );
 }

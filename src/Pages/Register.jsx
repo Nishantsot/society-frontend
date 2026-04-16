@@ -1,69 +1,156 @@
 import React, { useState } from "react";
+import { registerUser, verifyOtp } from "../api/authservices";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Register() {
 
-const [form,setForm] = useState({
-name:"",
-email:"",
-password:"",
-branch:"",
-year:"",
-role:"MEMBER"
-})
+  const navigate = useNavigate();
 
-const handleChange = (e)=>{
-setForm({...form,[e.target.name]:e.target.value})
-}
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    branch: "CSE",
+    year: "THIRD"
+  });
 
-const handleRegister = async () => {
-try{
+  const [otp, setOtp] = useState("");
+  const [showOtp, setShowOtp] = useState(false);
+  const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // 👁
 
-await axios.post("http://localhost:8080/auth/register",form)
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setMessage("");
+  };
 
-alert("OTP Sent to Email")
+  const handleRegister = async () => {
+    try {
+      const res = await registerUser(form);
+      setMessage("✅ " + res.data);
 
-}catch(err){
-alert("Registration Failed")
-}
-}
+      if (res.data.includes("OTP")) {
+        setShowOtp(true);
+      }
 
-return (
-<div className="container d-flex justify-content-center align-items-center vh-100">
+    } catch (err) {
+      setMessage("❌ " + (err.response?.data || "Registration Failed"));
+    }
+  };
 
-<div className="card p-4 shadow register-card">
+  const handleVerify = async () => {
+    try {
+      const res = await verifyOtp({
+        email: form.email,
+        otp: otp
+      });
 
-<h3 className="text-center text-danger mb-3">Register</h3>
+      setMessage("✅ " + res.data);
 
-<input name="name" placeholder="Name" className="form-control mb-2" onChange={handleChange}/>
-<input name="email" placeholder="Email" className="form-control mb-2" onChange={handleChange}/>
-<input name="password" type="password" placeholder="Password" className="form-control mb-2" onChange={handleChange}/>
+      setTimeout(() => navigate("/login"), 1500);
 
-{/* Branch */}
-<select name="branch" className="form-control mb-2" onChange={handleChange}>
-<option>Select Branch</option>
-<option>CSE</option>
-<option>IT</option>
-<option>ECE</option>
-<option>ME</option>
-</select>
+    } catch (err) {
+      setMessage("❌ " + (err.response?.data || "Verification Failed"));
+    }
+  };
 
-{/* Year */}
-<select name="year" className="form-control mb-2" onChange={handleChange}>
-<option>Select Year</option>
-<option>FIRST</option>
-<option>SECOND</option>
-<option>THIRD</option>
-<option>FOURTH</option>
-</select>
+  return (
+    <div className="auth-container">
 
-<button className="btn btn-danger w-100 mt-2" onClick={handleRegister}>
-Register
-</button>
+      {/* 🔥 FRAMER BOX */}
+      <motion.div
+        className="auth-card-box"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
 
-</div>
+        <h2 className="auth-title">🚀 Register</h2>
+        <p className="auth-subtitle">Create your account</p>
 
-</div>
-);
+        {message && (
+          <div className={`msg ${message.includes("❌") ? "error" : "success"}`}>
+            {message}
+          </div>
+        )}
+
+        {/* 🟢 REGISTER FORM */}
+        {!showOtp && (
+          <>
+            <input name="name" placeholder="Full Name" className="input-field" onChange={handleChange}/>
+            <input name="email" placeholder="Email" className="input-field" onChange={handleChange}/>
+
+            {/* 🔥 PASSWORD WITH EYE */}
+            <div className="password-box">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                className="input-field"
+                onChange={handleChange}
+              />
+              <span
+                className="eye-icon"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "🙈" : "👁"}
+              </span>
+            </div>
+
+            <select name="branch" className="input-field" onChange={handleChange}>
+              <option>CSE</option>
+              <option>IT</option>
+              <option>ECE</option>
+            </select>
+
+            <select name="year" className="input-field" onChange={handleChange}>
+              <option>FIRST</option>
+              <option>SECOND</option>
+              <option>THIRD</option>
+              <option>FOURTH</option>
+            </select>
+
+            {/* 🔥 BUTTON ANIMATION */}
+            <motion.button
+              className="main-btn"
+              onClick={handleRegister}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Register
+            </motion.button>
+          </>
+        )}
+
+        {/* 🔢 OTP SECTION */}
+        {showOtp && (
+          <>
+            <input
+              placeholder="Enter OTP"
+              className="input-field"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+
+            <motion.button
+              className="main-btn success-btn"
+              onClick={handleVerify}
+              whileHover={{ scale: 1.05 }}
+            >
+              Verify OTP
+            </motion.button>
+          </>
+        )}
+
+        <p className="extra">
+          Already have an account?{" "}
+          <span onClick={() => navigate("/login")}>Login</span>
+        </p>
+
+      </motion.div>
+    </div>
+  );
 }
 
 export default Register;

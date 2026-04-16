@@ -1,30 +1,43 @@
 import React from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-glass sticky-top">
-
+    <motion.nav
+      className="navbar navbar-expand-lg navbar-glass sticky-top"
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
       <div className="container">
 
         {/* LOGO */}
         <Link to="/" className="navbar-brand d-flex align-items-center">
 
-          <img
+          <motion.img
             src={logo}
             alt="logo"
             height="42"
             className="me-2 logo-img"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
           />
 
-          <span className="fw-bold logo-text">
+          <motion.span
+            className="fw-bold logo-text"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+          >
             Society Portal
-          </span>
+          </motion.span>
 
         </Link>
 
-        {/* MOBILE MENU BUTTON */}
+        {/* MOBILE BUTTON */}
         <button
           className="navbar-toggler border-0"
           type="button"
@@ -39,31 +52,42 @@ function Navbar() {
 
           <ul className="navbar-nav ms-auto align-items-lg-center">
 
-            <li className="nav-item">
+            <motion.li
+              className="nav-item"
+              whileHover={{ scale: 1.1 }}
+            >
               <Link className="nav-link nav-hover px-3" to="/">
-                <i className="bi bi-house-door me-1"></i> Home
+                Home
               </Link>
-            </li>
+            </motion.li>
 
-            <li className="nav-item">
+            <motion.li
+              className="nav-item"
+              whileHover={{ scale: 1.1 }}
+            >
               <Link className="nav-link nav-hover px-3" to="/login">
-                <i className="bi bi-box-arrow-in-right me-1"></i> Login
+                Login
               </Link>
-            </li>
+            </motion.li>
 
-            <li className="nav-item">
-              <Link className="btn btn-premium ms-lg-3 mt-2 mt-lg-0 px-4" to="/register">
-                <i className="bi bi-person-plus me-1"></i> Register
+            <motion.li
+              className="nav-item"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Link
+                className="btn btn-premium ms-lg-3 mt-2 mt-lg-0 px-4"
+                to="/register"
+              >
+                Register
               </Link>
-            </li>
+            </motion.li>
 
           </ul>
 
         </div>
 
       </div>
-
-    </nav>
+    </motion.nav>
   );
 }
 
