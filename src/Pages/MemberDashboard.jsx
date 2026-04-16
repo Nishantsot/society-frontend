@@ -13,15 +13,12 @@ function MemberDashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
   const email = user?.email;
 
-  // ✅ 🔒 PROTECT DASHBOARD (login required)
+  // 🔒 PROTECT DASHBOARD
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      navigate("/login");
-    }
+    if (!user) navigate("/login");
   }, [navigate]);
 
-  // ✅ FETCH DATA
+  // FETCH DATA
   useEffect(() => {
     if (email) fetchData();
   }, [email]);
@@ -35,10 +32,9 @@ function MemberDashboard() {
     }
   };
 
-  // ✅ LOGOUT FUNCTION
+  // LOGOUT
   const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/login");
   };
 
@@ -49,12 +45,8 @@ function MemberDashboard() {
   return (
     <div className="dashboard">
 
-      {/* 🔥 LOGOUT BUTTON */}
-      <div style={{ position: "absolute", top: "20px", right: "20px" }}>
-        <button onClick={logout} className="logout-btn">
-          <i className="bi bi-box-arrow-right"></i>
-        </button>
-      </div>
+      {/* LOGOUT */}
+      <button className="logout-btn" onClick={logout}>Logout</button>
 
       {/* BURGER */}
       <div className="burger" onClick={() => setOpenSidebar(!openSidebar)}>
@@ -93,75 +85,70 @@ function MemberDashboard() {
         <div className="card-grid">
 
           {filtered.length === 0 && (
-            <p style={{ textAlign: "center" }}>No societies found</p>
+            <p className="no-data">No societies found</p>
           )}
 
-          {filtered.map((s, index) => {
+          {filtered.map((s, index) => (
+            <motion.div
+              className="card-premium"
+              key={s.id}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.08 }}
+            >
 
-            console.log("LOGO:", s.logoUrl); // ✅ debug
+              {/* IMAGE */}
+           <div className="logo-wrapper">
+  <img
+    src={
+      s.logoUrl?.startsWith("http")
+        ? s.logoUrl
+        : `http://localhost:8080${s.logoUrl}`
+    }
+    alt="logo"
+    className="society-logo"
+    onError={(e) => (e.target.src = "/default.png")}
+  />
+</div>
 
-            return (
-              <motion.div
-                className="card-premium"
-                key={s.id}
-                whileHover={{ scale: 1.03 }}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+              {/* NAME */}
+              <h3 className="title">{s.name}</h3>
+
+              {/* DESCRIPTION (CLAMPED 🔥) */}
+              <p className="desc">{s.description}</p>
+
+              {/* MEMBERS INLINE 🔥 */}
+              <div className="members-preview">
+                {s.members?.length > 0
+                  ? s.members.slice(0, 3).join(", ")
+                  : "No members"}
+              </div>
+
+              {/* INSTAGRAM */}
+             {s.instagram && (
+  <a
+    href={`https://instagram.com/${s.instagram}`}
+    target="_blank"
+    rel="noreferrer"
+    className="insta-btn"
+  >
+    <i className="bi bi-instagram"></i>
+    <span>@{s.instagram}</span>
+  </a>
+)}
+
+              {/* BUTTON */}
+              <button
+                className="btn-view"
+                onClick={() => navigate(`/society/${s.id}`)}
               >
+                View Details →
+              </button>
 
-                {/* ✅ IMAGE */}
-                <img
-                  src={s.logoUrl}
-                  alt="logo"
-                  className="society-logo"
-                  onError={(e) => {
-                    console.log("FAILED:", s.logoUrl);
-                    e.target.src = "/default.png"; // 🔥 local fallback
-                  }}
-                />
-
-                {/* NAME */}
-                <h3 className="title">{s.name}</h3>
-
-                {/* DESCRIPTION */}
-                <p className="desc">{s.description}</p>
-
-                {/* MEMBERS */}
-                <div className="members-preview">
-                  {s.members?.slice(0, 3).map((m, i) => (
-                    <span key={i}>
-                      {m}{i < 2 ? ", " : ""}
-                    </span>
-                  ))}
-                </div>
-
-                {/* INSTAGRAM */}
-                <div className="socials">
-                  {s.instagram && (
-                    <a
-                      href={`https://instagram.com/${s.instagram}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="insta-link"
-                    >
-                      <i className="bi bi-instagram"></i>
-                      <span>@{s.instagram}</span>
-                    </a>
-                  )}
-                </div>
-
-                {/* BUTTON */}
-                <button
-                  className="btn-view"
-                  onClick={() => navigate(`/society/${s.id}`)}
-                >
-                  View Details →
-                </button>
-
-              </motion.div>
-            );
-          })}
+            </motion.div>
+          ))}
 
         </div>
       </div>

@@ -32,22 +32,31 @@ function Home() {
     <>
       <Navbar />
 
-      <div className="hero-bg">
-  <div className="hero-overlay">
+  <div className="hero-bg">
+
+  {/* 🔥 ANIMATED OVERLAY */}
+  <motion.div
+    className="hero-overlay"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 1 }}
+  >
+
     <div className="container py-5 text-center">
 
+      {/* BADGE */}
       <motion.span
         className="badge bg-danger px-3 py-2 mb-3"
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={{ opacity: 0, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
       >
-       Connect • Create • Lead
+        Connect • Create • Lead
       </motion.span>
 
       <motion.h1
-        className="fw-bold hero-title gradient-text"
-        initial={{ opacity: 0, y: 60 }}
+      className="fw-bold hero-title"
+        initial={{ opacity: 0, y: 80 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
@@ -56,8 +65,8 @@ function Home() {
 
       <motion.p
         className="hero-text text-white mt-3"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
         Discover college societies, participate in exciting events,
@@ -65,33 +74,42 @@ function Home() {
       </motion.p>
 
       <motion.div
-        className="d-flex flex-column flex-sm-row gap-3 mt-4 hero-buttons justify-content-center"
-        initial={{ opacity: 0, y: 30 }}
+        className="d-flex flex-column flex-sm-row gap-3 mt-4 justify-content-center"
+        initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <button className="btn btn-danger px-4 py-2 fw-bold">
-          🚀 Explore Societies
-        </button>
+        <motion.button
+          className="btn btn-danger px-4 py-2 fw-bold"
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+        >
+           Explore Societies
+        </motion.button>
 
-        <button className="btn btn-outline-light px-4 py-2 fw-bold">
+        <motion.button
+          className="btn btn-outline-light px-4 py-2 fw-bold"
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+        >
           📅 View Events
-        </button>
+        </motion.button>
       </motion.div>
 
     </div>
-  </div>
+  </motion.div>
 </div>
 
       <div className="container pb-5">
 
-        <motion.h2
-          className="text-center text-danger mb-4"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-        >
-          Popular Societies
-        </motion.h2>
+       <motion.h2
+  className="text-center fw-bold societies-heading"
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
+>
+  Societies
+</motion.h2>
 
         <Swiper
           modules={[Autoplay]}
