@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import axiosInstance from "../api/axios";
-import axios from "axios"; 
+
 function SocietyDetail() {
   const { id } = useParams();
   const [society, setSociety] = useState(null);
 
-  // 🌐 BASE URL (works for local + live)
   const BASE_URL = import.meta.env.VITE_API_URL;
   const FILE_BASE = BASE_URL.replace("/api", "");
 
@@ -17,11 +16,18 @@ function SocietyDetail() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/user/society/${id}`);
+      const res = await axiosInstance.get(`/user/society/${id}`);
       setSociety(res.data);
     } catch (err) {
       console.error("Error fetching society:", err);
     }
+  };
+
+  // 🔥 SAFE IMAGE FALLBACK (NO LOOP EVER)
+  const handleImageError = (e) => {
+    if (e.target.dataset.failed) return; // stop infinite loop
+    e.target.dataset.failed = "true";
+    e.target.src = "https://via.placeholder.com/150";
   };
 
   if (!society)
@@ -41,12 +47,12 @@ function SocietyDetail() {
             }
             alt="logo"
             className="detail-logo"
-            onError={(e) => (e.target.src = "/default.png")}
+            onError={handleImageError}
           />
           <h2 className="mt-3 fw-bold">{society.name}</h2>
         </div>
 
-        {/* DETAILS SECTIONS */}
+        {/* DETAILS */}
         {[
           { title: "📖 Description", value: society.description },
           { title: "🎯 Vision", value: society.vision },
@@ -96,10 +102,7 @@ function SocietyDetail() {
                   }
                   alt="campus"
                   className="gallery-img"
-                  onError={(e) => {
-                    console.log("FAILED:", img);
-                    e.target.src = "/default.png";
-                  }}
+                  onError={handleImageError}
                 />
               ))}
             </div>
@@ -125,7 +128,7 @@ function SocietyDetail() {
           )}
         </div>
 
-        {/* 🌐 SOCIAL LINKS */}
+        {/* 🌐 SOCIAL */}
         <div className="social-container">
           {society.website && (
             <a href={society.website} target="_blank" rel="noreferrer" className="btn website-btn">

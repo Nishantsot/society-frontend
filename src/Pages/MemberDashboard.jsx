@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getMySocieties } from "../api/authservices";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axiosInstance from "../api/axios";
-import axios from "axios";
 
 function MemberDashboard() {
   const [societies, setSocieties] = useState([]);
@@ -13,28 +11,46 @@ function MemberDashboard() {
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const email = user?.email;
 
   // 🔒 PROTECT DASHBOARD
   useEffect(() => {
     if (!user) navigate("/login");
   }, [navigate]);
 
-  // FETCH DATA
+  // 🔥 FETCH DATA
   const fetchData = async () => {
-  try {
-    const res = await axiosInstance.get("/user/societies");
-    console.log("DATA:", res.data); // optional debug
-    setSocieties(res.data);
-  } catch (err) {
-    console.error(err);
-  }
-};
+    try {
+      const res = await axiosInstance.get("/user/societies");
+      console.log("DATA:", res.data);
+      setSocieties(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-// 🔥 CALL IT
-useEffect(() => {
-  fetchData();
-}, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // ✅ FIX: Proper base URL
+  const FILE_BASE = import.meta.env.VITE_API_URL.replace("/api", "");
+
+  // ✅ FIX: universal image handler
+  const getImageUrl = (url) => {
+    if (!url) return "https://via.placeholder.com/150";
+
+    if (url.startsWith("http")) return url;
+
+    return `${FILE_BASE}${url}`;
+  };
+
+  // 🔥 SAFE IMAGE FALLBACK (NO LOOP)
+  const handleImageError = (e) => {
+    if (e.target.dataset.failed) return;
+    e.target.dataset.failed = "true";
+    e.target.src = "https://via.placeholder.com/150";
+  };
+
   // LOGOUT
   const logout = () => {
     localStorage.clear();
@@ -103,26 +119,22 @@ useEffect(() => {
             >
 
               {/* IMAGE */}
-           <div className="logo-wrapper">
-  <img
-  src={
-    s.logoUrl?.startsWith("http")
-      ? s.logoUrl
-      : `${import.meta.env.VITE_API_URL.replace("/api","")}${s.logoUrl}`
-  }
-  alt="logo"
-  className="society-logo"
-  onError={(e) => (e.target.src = "/default.png")}
-/>
-</div>
+              <div className="logo-wrapper">
+                <img
+                  src={getImageUrl(s.logoUrl)}   // ✅ FIXED HERE
+                  alt="logo"
+                  className="society-logo"
+                  onError={handleImageError}
+                />
+              </div>
 
               {/* NAME */}
               <h3 className="title">{s.name}</h3>
 
-              {/* DESCRIPTION (CLAMPED 🔥) */}
+              {/* DESCRIPTION */}
               <p className="desc">{s.description}</p>
 
-              {/* MEMBERS INLINE 🔥 */}
+              {/* MEMBERS */}
               <div className="members-preview">
                 {s.members?.length > 0
                   ? s.members.slice(0, 3).join(", ")
@@ -130,17 +142,17 @@ useEffect(() => {
               </div>
 
               {/* INSTAGRAM */}
-             {s.instagram && (
-  <a
-    href={`https://instagram.com/${s.instagram}`}
-    target="_blank"
-    rel="noreferrer"
-    className="insta-btn"
-  >
-    <i className="bi bi-instagram"></i>
-    <span>@{s.instagram}</span>
-  </a>
-)}
+              {s.instagram && (
+                <a
+                  href={`https://instagram.com/${s.instagram}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="insta-btn"
+                >
+                  <i className="bi bi-instagram"></i>
+                  <span>@{s.instagram}</span>
+                </a>
+              )}
 
               {/* BUTTON */}
               <button
