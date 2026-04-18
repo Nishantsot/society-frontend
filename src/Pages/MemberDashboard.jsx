@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getMySocieties } from "../api/authservices";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import axiosInstance from "../api/axios";
 
 function MemberDashboard() {
   const [societies, setSocieties] = useState([]);
@@ -19,19 +20,20 @@ function MemberDashboard() {
   }, [navigate]);
 
   // FETCH DATA
-  useEffect(() => {
-    if (email) fetchData();
-  }, [email]);
-
   const fetchData = async () => {
-    try {
-      const res = await getMySocieties(email);
-      setSocieties(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  try {
+    const res = await axiosInstance.get("/user/societies");
+    console.log("DATA:", res.data); // optional debug
+    setSocieties(res.data);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
+// 🔥 CALL IT
+useEffect(() => {
+  fetchData();
+}, []);
   // LOGOUT
   const logout = () => {
     localStorage.clear();
@@ -102,15 +104,15 @@ function MemberDashboard() {
               {/* IMAGE */}
            <div className="logo-wrapper">
   <img
-    src={
-      s.logoUrl?.startsWith("http")
-        ? s.logoUrl
-        : `http://localhost:8080${s.logoUrl}`
-    }
-    alt="logo"
-    className="society-logo"
-    onError={(e) => (e.target.src = "/default.png")}
-  />
+  src={
+    s.logoUrl?.startsWith("http")
+      ? s.logoUrl
+      : `${import.meta.env.VITE_API_URL.replace("/api","")}${s.logoUrl}`
+  }
+  alt="logo"
+  className="society-logo"
+  onError={(e) => (e.target.src = "/default.png")}
+/>
 </div>
 
               {/* NAME */}
