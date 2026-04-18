@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import axiosInstance from "../api/axios";
+import axios from "axios"; 
 function SocietyDetail() {
   const { id } = useParams();
   const [society, setSociety] = useState(null);

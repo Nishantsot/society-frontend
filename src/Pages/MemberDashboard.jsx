@@ -3,6 +3,7 @@ import { getMySocieties } from "../api/authservices";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axiosInstance from "../api/axios";
+import axios from "axios";
 
 function MemberDashboard() {
   const [societies, setSocieties] = useState([]);
