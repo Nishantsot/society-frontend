@@ -6,6 +6,7 @@ import axiosInstance from "../api/axios";
 function SocietyDetail() {
   const { id } = useParams();
   const [society, setSociety] = useState(null);
+  const [selectedImg, setSelectedImg] = useState(null);
 
   const BASE_URL = import.meta.env.VITE_API_URL;
   const FILE_BASE = BASE_URL.replace("/api", "");
@@ -95,45 +96,43 @@ function SocietyDetail() {
             </motion.div>
           ))}
 
-          {/* 📸 GALLERY */}
-          {society.images?.length > 0 && (
-            <div className="section-box">
-              <h5>📸 Gallery</h5>
+        const [selectedImg, setSelectedImg] = useState(null);
 
-       <div className="image-grid">
-  {society.images?.map((img, i) => {
+{society.images?.length > 0 && (
+  <div className="section-box">
+    <h5>📸 Gallery</h5>
 
-    console.log("RAW IMG:", img);
+    <div className="image-grid">
+      {society.images.map((img, i) => {
 
-    let finalUrl = "";
+        let finalUrl = "";
 
-    if (!img) return null;
+        if (!img) return null;
 
-    if (img.startsWith("http")) {
-      finalUrl = img;
-    } else if (img.startsWith("/")) {
-      finalUrl = `${FILE_BASE}${img}`;
-    } else {
-      finalUrl = `${FILE_BASE}/${img}`;
-    }
+        if (img.startsWith("http")) {
+          finalUrl = img;
+        } else if (img.startsWith("/")) {
+          finalUrl = `${FILE_BASE}${img}`;
+        } else {
+          finalUrl = `${FILE_BASE}/${img}`;
+        }
 
-    console.log("FINAL URL:", finalUrl);
-
-    return (
-      <motion.img
-        key={i}
-        src={finalUrl}
-        className="gallery-img"
-        onError={(e) => {
-          console.log("FAILED:", finalUrl);
-          e.target.src = "https://via.placeholder.com/150";
-        }}
-      />
-    );
-  })}
-</div>
-            </div>
-          )}
+        return (
+          <motion.img
+            key={i}
+            src={finalUrl}
+            className="gallery-img"
+            onClick={() => setSelectedImg(finalUrl)}   // 🔥 CLICK TO OPEN
+            onError={(e) => {
+              e.target.src = "https://via.placeholder.com/150";
+            }}
+            whileHover={{ scale: 1.1 }}   // 🔥 HOVER ANIMATION
+          />
+        );
+      })}
+    </div>
+  </div>
+)}
 
           {/* 👥 TEAM */}
           <div className="section-box">
@@ -199,6 +198,11 @@ function SocietyDetail() {
 
         </motion.div>
       </div>
+      {selectedImg && (
+  <div className="image-modal" onClick={() => setSelectedImg(null)}>
+    <img src={selectedImg} alt="full" />
+  </div>
+)}
     </div>
   );
 }
