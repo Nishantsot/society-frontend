@@ -24,20 +24,24 @@ function SocietyDetail() {
   };
 
   // ✅ SAFE IMAGE FALLBACK
-  const handleImageError = (e) => {
-    if (e.target.dataset.failed) return;
-    e.target.dataset.failed = "true";
-    e.target.src = "https://via.placeholder.com/150";
-  };
+const handleImageError = (e) => {
+  if (e.target.dataset.failed) return;
+  e.target.dataset.failed = "true";
+  e.target.src = "/no-image.png";   // ✅ FIX
+};
 
   // ✅ UNIVERSAL IMAGE FIX FUNCTION
-  const getImageUrl = (url) => {
-    if (!url) return "https://via.placeholder.com/150";
+const getImageUrl = (url) => {
+  if (!url) return "/no-image.png";   // ✅ FIX
 
-    if (url.startsWith("http")) return url;
+  url = url.replace(/Uploads/g, "uploads");
 
-    return `${FILE_BASE}${url.startsWith("/") ? "" : "/"}${url}`;
-  };
+  if (url.startsWith("http")) return url;
+
+  if (!url.startsWith("/")) url = "/" + url;
+
+  return `${FILE_BASE}${url}`;
+};
 
   if (!society)
     return <p className="text-center mt-5 text-white">Loading...</p>;
