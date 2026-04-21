@@ -23,13 +23,24 @@ function SocietyDetail() {
     }
   };
 
+  // ✅ SAFE IMAGE FALLBACK
   const handleImageError = (e) => {
     if (e.target.dataset.failed) return;
     e.target.dataset.failed = "true";
     e.target.src = "https://via.placeholder.com/150";
   };
 
-  if (!society) return <p className="text-center mt-5 text-white">Loading...</p>;
+  // ✅ UNIVERSAL IMAGE FIX FUNCTION
+  const getImageUrl = (url) => {
+    if (!url) return "https://via.placeholder.com/150";
+
+    if (url.startsWith("http")) return url;
+
+    return `${FILE_BASE}${url.startsWith("/") ? "" : "/"}${url}`;
+  };
+
+  if (!society)
+    return <p className="text-center mt-5 text-white">Loading...</p>;
 
   return (
     <div className="detail-bg">
@@ -44,11 +55,7 @@ function SocietyDetail() {
           {/* HEADER */}
           <div className="text-center mb-4">
             <motion.img
-              src={
-                society.logoUrl?.startsWith("http")
-                  ? society.logoUrl
-                  : `${FILE_BASE}${society.logoUrl}`
-              }
+              src={getImageUrl(society.logoUrl)}
               className="detail-logo"
               onError={handleImageError}
               initial={{ scale: 0 }}
@@ -88,7 +95,7 @@ function SocietyDetail() {
             </motion.div>
           ))}
 
-          {/* IMAGES */}
+          {/* 📸 GALLERY */}
           {society.images?.length > 0 && (
             <div className="section-box">
               <h5>📸 Gallery</h5>
@@ -97,7 +104,7 @@ function SocietyDetail() {
                 {society.images.map((img, i) => (
                   <motion.img
                     key={i}
-                    src={img.startsWith("http") ? img : `${FILE_BASE}${img}`}
+                    src={getImageUrl(img)}
                     onError={handleImageError}
                     whileHover={{ scale: 1.1 }}
                   />
@@ -106,32 +113,66 @@ function SocietyDetail() {
             </div>
           )}
 
-          {/* TEAM */}
+          {/* 👥 TEAM */}
           <div className="section-box">
             <h5>👥 Core Team</h5>
 
-         <div className="team-list">
-  {society.coreTeam?.map((m, i) => {
-    const parts = m.split("–"); // split name and role
+            <div className="team-list">
+              {society.coreTeam?.map((m, i) => {
+                const parts = m.split(/–|-/); // safer split
 
-    const name = parts[0]?.trim();
-    const role = parts[1]?.trim();
+                const name = parts[0]?.trim();
+                const role = parts[1]?.trim();
 
-    return (
-      <div key={i} className="team-item">
-        <strong className="role">{role}</strong> – {name}
-      </div>
-    );
-  })}
-</div>
+                return (
+                  <div key={i} className="team-item">
+                    <strong className="role">{role}</strong> – {name}
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
-          {/* SOCIAL */}
+          {/* 🌐 SOCIAL */}
           <div className="social-container">
-            {society.website && <a href={society.website} className="btn">🌐 Website</a>}
-            {society.instagram && <a href={`https://instagram.com/${society.instagram}`} className="btn insta">Instagram</a>}
-            {society.youtube && <a href={`https://youtube.com/${society.youtube}`} className="btn yt">YouTube</a>}
-            {society.linkedin && <a href={society.linkedin} className="btn ln">LinkedIn</a>}
+            {society.website && (
+              <a href={society.website} target="_blank" rel="noreferrer" className="btn">
+                🌐 Website
+              </a>
+            )}
+
+            {society.instagram && (
+              <a
+                href={`https://instagram.com/${society.instagram}`}
+                target="_blank"
+                rel="noreferrer"
+                className="btn insta"
+              >
+                📸 Instagram
+              </a>
+            )}
+
+            {society.youtube && (
+              <a
+                href={`https://youtube.com/${society.youtube}`}
+                target="_blank"
+                rel="noreferrer"
+                className="btn yt"
+              >
+                ▶ YouTube
+              </a>
+            )}
+
+            {society.linkedin && (
+              <a
+                href={society.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="btn ln"
+              >
+                🔗 LinkedIn
+              </a>
+            )}
           </div>
 
         </motion.div>
