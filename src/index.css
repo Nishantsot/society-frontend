@@ -1272,7 +1272,10 @@ body {
 
 .image-grid img {
   width: 100%;
+  height: 150px;          /* 🔥 FIX */
+  object-fit: cover;      /* 🔥 FIX */
   border-radius: 10px;
+  display: block;         /* 🔥 FIX */
 }
 
 .team-grid {

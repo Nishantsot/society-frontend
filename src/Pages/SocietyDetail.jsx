@@ -105,6 +105,8 @@ function SocietyDetail() {
                   <motion.img
                     key={i}
                     src={getImageUrl(img)}
+                      className="gallery-img"   // 🔥 ADD THIS
+
                     onError={handleImageError}
                     whileHover={{ scale: 1.1 }}
                   />
