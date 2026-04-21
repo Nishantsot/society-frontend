@@ -100,18 +100,38 @@ function SocietyDetail() {
             <div className="section-box">
               <h5>📸 Gallery</h5>
 
-              <div className="image-grid">
-                {society.images.map((img, i) => (
-                  <motion.img
-                    key={i}
-                    src={getImageUrl(img)}
-                      className="gallery-img"   // 🔥 ADD THIS
+       <div className="image-grid">
+  {society.images?.map((img, i) => {
 
-                    onError={handleImageError}
-                    whileHover={{ scale: 1.1 }}
-                  />
-                ))}
-              </div>
+    console.log("RAW IMG:", img);
+
+    let finalUrl = "";
+
+    if (!img) return null;
+
+    if (img.startsWith("http")) {
+      finalUrl = img;
+    } else if (img.startsWith("/")) {
+      finalUrl = `${FILE_BASE}${img}`;
+    } else {
+      finalUrl = `${FILE_BASE}/${img}`;
+    }
+
+    console.log("FINAL URL:", finalUrl);
+
+    return (
+      <motion.img
+        key={i}
+        src={finalUrl}
+        className="gallery-img"
+        onError={(e) => {
+          console.log("FAILED:", finalUrl);
+          e.target.src = "https://via.placeholder.com/150";
+        }}
+      />
+    );
+  })}
+</div>
             </div>
           )}
 
