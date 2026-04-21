@@ -19,146 +19,122 @@ function SocietyDetail() {
       const res = await axiosInstance.get(`/user/society/${id}`);
       setSociety(res.data);
     } catch (err) {
-      console.error("Error fetching society:", err);
+      console.error(err);
     }
   };
 
-  // 🔥 SAFE IMAGE FALLBACK (NO LOOP EVER)
   const handleImageError = (e) => {
-    if (e.target.dataset.failed) return; // stop infinite loop
+    if (e.target.dataset.failed) return;
     e.target.dataset.failed = "true";
     e.target.src = "https://via.placeholder.com/150";
   };
 
-  if (!society)
-    return <p className="text-center mt-5">Loading...</p>;
+  if (!society) return <p className="text-center mt-5 text-white">Loading...</p>;
 
   return (
-    <div className="container py-5">
-      <div className="detail-card p-4">
+    <div className="detail-bg">
+      <div className="container py-5">
 
-        {/* HEADER */}
-        <div className="text-center mb-4">
-          <img
-            src={
-              society.logoUrl?.startsWith("http")
-                ? society.logoUrl
-                : `${FILE_BASE}${society.logoUrl}`
-            }
-            alt="logo"
-            className="detail-logo"
-            onError={handleImageError}
-          />
-          <h2 className="mt-3 fw-bold">{society.name}</h2>
-        </div>
+        <motion.div
+          className="detail-card p-4"
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
 
-        {/* DETAILS */}
-        {[
-          { title: "📖 Description", value: society.description },
-          { title: "🎯 Vision", value: society.vision },
-          { title: "🚀 Mission", value: society.mission },
-          { title: "🏆 Achievements", value: society.achievements },
-          { title: "📅 Recent Event", value: society.recentEvent }
-        ].map((item, i) => (
-          <div key={i} className="section-box hover-box">
-            <h5 className="section-title">{item.title}</h5>
+          {/* HEADER */}
+          <div className="text-center mb-4">
+            <motion.img
+              src={
+                society.logoUrl?.startsWith("http")
+                  ? society.logoUrl
+                  : `${FILE_BASE}${society.logoUrl}`
+              }
+              className="detail-logo"
+              onError={handleImageError}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+            />
 
-            <p className="text-content">
-              {item.value
-                ? item.value.split(/\r?\n/).map((line, index) => {
-                    if (line.trim().startsWith("•")) {
-                      return (
-                        <li key={index} className="bullet-line">
-                          {line.replace("•", "").trim()}
-                        </li>
-                      );
-                    }
-                    return (
-                      <span key={index}>
+            <h2 className="gradient-text mt-3">{society.name}</h2>
+          </div>
+
+          {/* DETAILS */}
+          {[
+            { title: "📖 Description", value: society.description },
+            { title: "🎯 Vision", value: society.vision },
+            { title: "🚀 Mission", value: society.mission },
+            { title: "🏆 Achievements", value: society.achievements },
+            { title: "📅 Events", value: society.recentEvent }
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              className="section-box"
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <h5>{item.title}</h5>
+
+              <p>
+                {item.value
+                  ? item.value.split("\n").map((line, idx) => (
+                      <span key={idx}>
                         {line}
                         <br />
-                        <br />
                       </span>
-                    );
-                  })
-                : "Not available"}
-            </p>
-          </div>
-        ))}
+                    ))
+                  : "Not available"}
+              </p>
+            </motion.div>
+          ))}
 
-        {/* 📸 IMAGES */}
-        {society.images && society.images.length > 0 && (
-          <div className="section-box">
-            <h5 className="section-title">📸 Campus Photos</h5>
+          {/* IMAGES */}
+          {society.images?.length > 0 && (
+            <div className="section-box">
+              <h5>📸 Gallery</h5>
 
-            <div className="image-grid">
-              {society.images.map((img, i) => (
-                <img
-                  key={i}
-                  src={
-                    img.startsWith("http")
-                      ? img
-                      : `${FILE_BASE}${img}`
-                  }
-                  alt="campus"
-                  className="gallery-img"
-                  onError={handleImageError}
-                />
-              ))}
+              <div className="image-grid">
+                {society.images.map((img, i) => (
+                  <motion.img
+                    key={i}
+                    src={img.startsWith("http") ? img : `${FILE_BASE}${img}`}
+                    onError={handleImageError}
+                    whileHover={{ scale: 1.1 }}
+                  />
+                ))}
+              </div>
             </div>
+          )}
+
+          {/* TEAM */}
+          <div className="section-box">
+            <h5>👥 Core Team</h5>
+
+         <div className="team-list">
+  {society.coreTeam?.map((m, i) => {
+    const parts = m.split("–"); // split name and role
+
+    const name = parts[0]?.trim();
+    const role = parts[1]?.trim();
+
+    return (
+      <div key={i} className="team-item">
+        <strong className="role">{role}</strong> – {name}
+      </div>
+    );
+  })}
+</div>
           </div>
-        )}
 
-        {/* 👥 TEAM */}
-        <div className="section-box hover-box">
-          <h5 className="section-title">👥 Core Team</h5>
+          {/* SOCIAL */}
+          <div className="social-container">
+            {society.website && <a href={society.website} className="btn">🌐 Website</a>}
+            {society.instagram && <a href={`https://instagram.com/${society.instagram}`} className="btn insta">Instagram</a>}
+            {society.youtube && <a href={`https://youtube.com/${society.youtube}`} className="btn yt">YouTube</a>}
+            {society.linkedin && <a href={society.linkedin} className="btn ln">LinkedIn</a>}
+          </div>
 
-          {society.coreTeam?.length > 0 ? (
-            society.coreTeam.map((m, i) => {
-              const [name, role] = m.split("–");
-
-              return (
-                <p key={i} className="team-line">
-                  <strong>{role}</strong> – {name}
-                </p>
-              );
-            })
-          ) : (
-            <p>No team data</p>
-          )}
-        </div>
-
-        {/* 🌐 SOCIAL */}
-        <div className="social-container">
-          {society.website && (
-            <a href={society.website} target="_blank" rel="noreferrer" className="btn website-btn">
-              🌐 Website
-            </a>
-          )}
-
-          {society.instagram && (
-            <a
-              href={`https://instagram.com/${society.instagram}`}
-              target="_blank"
-              rel="noreferrer"
-              className="btn insta-btn"
-            >
-              📸 @{society.instagram}
-            </a>
-          )}
-
-          {society.youtube && (
-            <a
-              href={`https://youtube.com/${society.youtube}`}
-              target="_blank"
-              rel="noreferrer"
-              className="btn yt-btn"
-            >
-              ▶ YouTube
-            </a>
-          )}
-        </div>
-
+        </motion.div>
       </div>
     </div>
   );

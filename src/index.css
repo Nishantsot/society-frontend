@@ -1233,3 +1233,68 @@ body {
   border: 2px solid #667eea;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
+.detail-bg {
+  background: linear-gradient(135deg, #020617, #0f172a);
+  min-height: 100vh;
+  color: white;
+}
+
+.detail-card {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.detail-logo {
+  width: 120px;
+  border-radius: 50%;
+  border: 3px solid #38bdf8;
+}
+
+.section-box {
+  background: rgba(30, 41, 59, 0.7);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.image-grid img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.team-card {
+  background: rgba(51, 65, 85, 0.8);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.btn {
+  margin: 5px;
+  padding: 8px 15px;
+  border-radius: 20px;
+  background: #38bdf8;
+  color: black;
+}
+
+.insta { background: #ec4899; }
+.yt { background: red; color: white; }
+.ln { background: #0a66c2; color: white; }
