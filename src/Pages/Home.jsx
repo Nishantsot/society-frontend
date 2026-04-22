@@ -10,157 +10,166 @@ import "swiper/css";
 
 function Home() {
 
-  const popularSocieties = [
-    {
-      title: "Robogyan",
-      desc: "The official robotics society of ADGIPS and the oldest tech society of the college, established in 2011 - embodies a rich legacy of innovation, technical excellence, and competitive achievement. Over the years, the society has played a pivotal role in fostering a strong culture of hands-on learning, problem-solving, and technological leadership. Robogyan has earned national recognition by winning the Smart India Hackathon multiple times and securing top positions in national-level robotics competitions hosted at premier IITs across India",
-      img: "robogyan.png",
-    },
-    {
-      title: "Avant Grade",
-      desc: "Official art society of ADGIPS, established in 2018, stands as a dynamic collective of creative individuals committed to visual expression, artistic exploration, and cultural engagement. Over the years, the society has cultivated a vibrant space where ideas take form through art, fostering a culture of creativity, collaboration, and experimentation.",
-      img: "avant.png",
-    },
-    {
-      title: "Confluez",
-      desc: "The official photography society of ADGIPS, founded in 2015 — is one of the most recognized and respected creative communities within the college, with photography at its core.",
-      img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4",
-    },
-  ];
+const popularSocieties = [
+{
+title: "Robogyan",
+desc: "Robotics society focused on innovation, hands-on learning, and national hackathons, building real-world engineering skills through projects and competitions.",
+img: "/robogyan.png",
+},
+{
+title: "Avant Garde",
+desc: "Creative art society encouraging visual expression, collaboration, and artistic exploration through exhibitions, murals, and interactive cultural projects.",
+img: "/avant.png",
+},
+{
+title: "Confluenz",
+desc: "Photography and media society capturing impactful moments through photography, cinematography, and design, shaping the visual identity of college events.",
+img: "/confluez.png",
+},
+{
+title: "Sports Committee",
+desc: "Official sports body promoting teamwork, discipline, and fitness through tournaments, competitions, and large-scale events across intra and inter-college levels.",
+img: "/sport.png",
+},
+{
+title: "GDGC",
+desc: "Tech community building developers through workshops, hackathons, and projects, helping students gain practical skills and industry exposure.",
+img: "/gdc.png",
+},
+{
+title: "Yakshagan",
+desc: "Dramatics and filmmaking society fostering storytelling, theatre performances, and creative expression through competitions, workshops, and productions.",
+img: "/yak.png",
+},
+{
+title: "Enactus",
+desc: "Entrepreneurial society creating sustainable social impact through innovative projects, empowering communities and developing responsible future leaders.",
+img: "/enactus.png",
+},
+{
+title: "Insync",
+desc: "Western dance society promoting creativity, rhythm, and performance through competitions, choreography, and energetic stage performances.",
+img: "/insyc.png",
+},
+{
+title: "Word Wizards",
+desc: "Student development society enhancing communication, confidence, and leadership skills through interactive sessions, activities, and real-world exposure.",
+img: "/wizard.png",
+},
+{
+title: "GeeksforGeeks",
+desc: "Technical society focused on coding, development, and problem-solving through workshops, hackathons, and structured learning programs.",
+img: "/geek.png",
+},
+{
+title: "E-Cell",
+desc: "Entrepreneurship cell promoting innovation, startup culture, and leadership through events, mentorship, and real-world business exposure.",
+img: "/ecell.png",
+}
+];
 
-  return (
-    <>
-      <Navbar />
+return (
+<> <Navbar />
 
+```
   <div className="hero-bg">
+    <motion.div
+      className="hero-overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
+      <div className="container py-5 text-center">
 
-  {/* 🔥 ANIMATED OVERLAY */}
-  <motion.div
-    className="hero-overlay"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 1 }}
-  >
-
-    <div className="container py-5 text-center">
-
-      {/* BADGE */}
-      <motion.span
-        className="badge bg-danger px-3 py-2 mb-3"
-        initial={{ opacity: 0, scale: 0.7 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        Connect • Create • Lead
-      </motion.span>
-
-      <motion.h1
-      className="fw-bold hero-title"
-        initial={{ opacity: 0, y: 80 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        Where Passion Meets Opportunity
-      </motion.h1>
-
-      <motion.p
-        className="hero-text text-white mt-3"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-      >
-        Discover college societies, participate in exciting events,
-        and build skills that shape your future.
-      </motion.p>
-
-      <motion.div
-        className="d-flex flex-column flex-sm-row gap-3 mt-4 justify-content-center"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      >
-        <motion.button
-          className="btn btn-danger px-4 py-2 fw-bold"
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
+        <motion.span
+          className="badge bg-danger px-3 py-2 mb-3"
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
         >
-           Explore Societies
-        </motion.button>
+          Connect • Create • Lead
+        </motion.span>
 
-        <motion.button
-          className="btn btn-outline-light px-4 py-2 fw-bold"
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
+        <motion.h1
+          className="fw-bold hero-title"
+          initial={{ opacity: 0, y: 80 }}
+          animate={{ opacity: 1, y: 0 }}
         >
-          📅 View Events
-        </motion.button>
-      </motion.div>
+          Where Passion Meets Opportunity
+        </motion.h1>
 
-    </div>
-  </motion.div>
-</div>
-
-      <div className="container pb-5">
-
-       <motion.h2
-  className="text-center fw-bold societies-heading"
-  initial={{ opacity: 0, y: 40 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
->
-  Societies
-</motion.h2>
-
-        <Swiper
-          modules={[Autoplay]}
-          autoplay={{ delay: 2500 }}
-          loop
-          spaceBetween={20}
-          breakpoints={{
-            0: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            992: { slidesPerView: 3 },
-          }}
+        <motion.p
+          className="hero-text text-white mt-3"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
         >
-          {popularSocieties.map((society, index) => (
-            <SwiperSlide key={index}>
+          Discover college societies, participate in exciting events,
+          and build skills that shape your future.
+        </motion.p>
 
-              <motion.div
-                className="card society-card h-100"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.2 }}
-                whileHover={{ scale: 1.05 }}
-              >
-
-                <img
-                  src={society.img}
-                  className="card-img-top society-img"
-                  alt={society.title}
-                />
-
-                <div className="card-body">
-                  <h5 className="card-title">{society.title}</h5>
-
-                  <p className="card-text">
-                    {society.desc}
-                  </p>
-
-                  
-                </div>
-
-              </motion.div>
-
-            </SwiperSlide>
-          ))}
-        </Swiper>
       </div>
+    </motion.div>
+  </div>
 
-      <footer className="footer-box">
-  <p className="mb-0">© ADGIPS Societies Management Portal</p>
-</footer>
-    </>
-  );
+  <div className="container pb-5">
+
+    <motion.h2
+      className="text-center fw-bold societies-heading"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+    >
+      Societies
+    </motion.h2>
+
+    <Swiper
+      modules={[Autoplay]}
+      autoplay={{ delay: 2500 }}
+      loop
+      spaceBetween={20}
+      breakpoints={{
+        0: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        992: { slidesPerView: 3 },
+      }}
+    >
+      {popularSocieties.map((society, index) => (
+        <SwiperSlide key={index}>
+
+          <motion.div
+            className="card society-card h-100"
+            whileHover={{ scale: 1.05 }}
+          >
+
+            {/* ✅ IMAGE FIXED */}
+            <div className="society-img-wrapper">
+              <img
+                src={society.img}
+                className="society-img-round"
+                alt={society.title}
+                onError={(e) => {
+                  e.target.src = "/no-image.png";   // 🔥 fallback
+                }}
+              />
+            </div>
+
+            <div className="card-body">
+              <h5 className="card-title">{society.title}</h5>
+              <p className="card-text scroll-desc">{society.desc}</p>
+            </div>
+
+          </motion.div>
+
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  </div>
+
+  <footer className="footer-box">
+    <p className="mb-0">© ADGIPS Societies Management Portal</p>
+  </footer>
+</>
+
+
+);
 }
 
 export default Home;

@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axiosInstance from "../api/axios";
+import { FiLogOut } from "react-icons/fi";
 
 function MemberDashboard() {
   const [societies, setSocieties] = useState([]);
   const [search, setSearch] = useState("");
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [category, setCategory] = useState("ALL");
 
   const navigate = useNavigate();
-
   const user = JSON.parse(localStorage.getItem("user"));
 
   // 🔒 PROTECT DASHBOARD
@@ -21,7 +22,6 @@ function MemberDashboard() {
   const fetchData = async () => {
     try {
       const res = await axiosInstance.get("/user/societies");
-      console.log("DATA:", res.data);
       setSocieties(res.data);
     } catch (err) {
       console.error(err);
@@ -32,23 +32,47 @@ function MemberDashboard() {
     fetchData();
   }, []);
 
-  // ✅ FIX: Proper base URL
+  // 🔥 CATEGORY FALLBACK (if backend doesn't send category)
+  const getCategory = (name = "") => {
+    name = name.toLowerCase();
+
+    if (name.includes("tech") || name.includes("gdgc") || name.includes("geek"))
+      return "TECH";
+
+    if (name.includes("dance") || name.includes("drama") || name.includes("art"))
+      return "CULTURAL";
+
+    return "NONTECH";
+  };
+
+  // 🔥 FILTER LOGIC
+  const filtered = societies.filter((s) => {
+    const matchSearch = s.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchCategory =
+      category === "ALL" ||
+      (s.category
+        ? s.category === category
+        : getCategory(s.name) === category);
+
+    return matchSearch && matchCategory;
+  });
+
+  // 🔥 IMAGE BASE
   const FILE_BASE = import.meta.env.VITE_API_URL.replace("/api", "");
 
-  // ✅ FIX: universal image handler
   const getImageUrl = (url) => {
-    if (!url) return "https://via.placeholder.com/150";
-
+    if (!url) return "/no-image.png";
     if (url.startsWith("http")) return url;
-
     return `${FILE_BASE}${url}`;
   };
 
-  // 🔥 SAFE IMAGE FALLBACK (NO LOOP)
   const handleImageError = (e) => {
     if (e.target.dataset.failed) return;
     e.target.dataset.failed = "true";
-    e.target.src = "https://via.placeholder.com/150";
+    e.target.src = "/no-image.png";
   };
 
   // LOGOUT
@@ -57,28 +81,39 @@ function MemberDashboard() {
     navigate("/login");
   };
 
-  const filtered = societies.filter((s) =>
-    s.name.toLowerCase().includes(search.toLowerCase())
-  );
-
   return (
     <div className="dashboard">
 
+      {/* OVERLAY */}
+      {openSidebar && (
+        <div
+          className="overlay"
+          onClick={() => setOpenSidebar(false)}
+        />
+      )}
+
       {/* LOGOUT */}
-      <button className="logout-btn" onClick={logout}>Logout</button>
+      
+<button className="logout-btn" onClick={logout}>
+  <FiLogOut />
+</button>
 
       {/* BURGER */}
-      <div className="burger" onClick={() => setOpenSidebar(!openSidebar)}>
+      <div
+        className="burger"
+        onClick={() => setOpenSidebar(!openSidebar)}
+      >
         ☰
       </div>
 
       {/* SIDEBAR */}
       <div className={`sidebar ${openSidebar ? "active" : ""}`}>
         <h2>🎯 Explore</h2>
-        <button>All</button>
-        <button>Tech</button>
-        <button>Cultural</button>
-        <button>Non-Tech</button>
+
+        <button onClick={() => setCategory("ALL")}>All</button>
+        <button onClick={() => setCategory("TECH")}>Tech</button>
+        <button onClick={() => setCategory("CULTURAL")}>Cultural</button>
+        <button onClick={() => setCategory("NONTECH")}>Non-Tech</button>
       </div>
 
       {/* MAIN */}
@@ -121,7 +156,7 @@ function MemberDashboard() {
               {/* IMAGE */}
               <div className="logo-wrapper">
                 <img
-                  src={getImageUrl(s.logoUrl)}   // ✅ FIXED HERE
+                  src={getImageUrl(s.logoUrl)}
                   alt="logo"
                   className="society-logo"
                   onError={handleImageError}
@@ -149,7 +184,6 @@ function MemberDashboard() {
                   rel="noreferrer"
                   className="insta-btn"
                 >
-                  <i className="bi bi-instagram"></i>
                   <span>@{s.instagram}</span>
                 </a>
               )}

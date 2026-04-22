@@ -22,38 +22,22 @@ html {
 
 /* ===== NAVBAR ===== */
 
-.navbar {
+/* 🔥 GLASS NAVBAR */
+.navbar-glass {
   backdrop-filter: blur(12px);
-  background: rgba(255,255,255,0.7) !important;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.6) !important;  /* dark theme */
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
 }
 
-.nav-hover {
-  cursor: pointer;
-  transition: 0.3s;
-  position: relative;
+/* TEXT COLOR */
+.navbar .nav-link {
+  color: #fff !important;
 }
 
+/* HOVER EFFECT */
 .nav-hover:hover {
-  color: #dc3545 !important;
-  transform: translateY(-2px);
+  background: linear-gradient(45deg, #dc3545, #ff4b2b);
 }
-
-.nav-hover::after {
-  content: "";
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background: #dc3545;
-  transition: 0.3s;
-}
-
-.nav-hover:hover::after {
-  width: 100%;
-}
-
 /* ===== HERO ===== */
 
 .hero-bg {
@@ -162,6 +146,23 @@ html {
   background: linear-gradient(45deg, #ff416c, #ff4b2b);
   border: none;
   color: white;
+}
+.btn-premium {
+  background: linear-gradient(45deg, #dc3545, #ff4b2b);
+  color: white;
+  border-radius: 25px;
+  border: none;
+  font-weight: 600;
+
+  padding: 8px 18px;
+  transition: all 0.3s ease;
+}
+
+/* HOVER */
+.btn-premium:hover {
+  background: linear-gradient(45deg, #ff4b2b, #dc3545);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220,53,69,0.4);
 }
 
 /* ===== GRID ===== */
@@ -794,7 +795,8 @@ html {
   margin-top: 12px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(45deg, #ee6081, #ee5092);
+  background: linear-gradient(45deg, #dc3545, #ff4b2b);
+
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -803,7 +805,7 @@ html {
 
 /* 🔥 HOVER EFFECT */
 .login-btn:hover {
-  box-shadow: 0 8px 20px rgba(255, 65, 108, 0.5);
+  box-shadow: 0 8px 20px;
 }
 /* PASSWORD FIELD */
 .password-box {
@@ -851,7 +853,7 @@ html {
 
   text-align: center;
 
-  background: rgba(255,255,255,0.85);
+  background: linear-gradient(45deg, #dc3545, #ff4b2b);
   backdrop-filter: blur(10px);
 
   border-radius: 0;     /* 🔥 no rounded edges (full bar look) */
@@ -1340,4 +1342,202 @@ body {
     transform: scale(1);
     opacity: 1;
   }
+}
+/*/* ===== HOME SOCIETIES FIX ===== */
+
+/* HEADING */
+.societies-heading {
+  color: #d33939;
+  font-size: 32px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* CARD */
+.society-card {
+  background: rgba(238, 15, 119, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  height: 100%;
+  transition: 0.3s ease;
+  color: #ec3b3b;
+}
+
+.society-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+
+/* IMAGE WRAPPER */
+.society-img-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* ROUND IMAGE */
+.society-img-round {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #dc3545;
+  transition: 0.3s;
+}
+
+/* IMAGE HOVER */
+.society-card:hover .society-img-round {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(190, 60, 73, 0.5);
+}
+
+/* TITLE */
+.society-card .card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* DESCRIPTION */
+.society-card .card-text {
+  font-size: 14px;
+  color: c#054172;
+  margin-top: 8px;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+/* SWIPER */
+.swiper {
+  padding-bottom: 20px;
+}
+/* 🔥 FIX DESCRIPTION FULL SHOW */
+.scroll-desc {
+  max-height: 120px;       /* control height */
+  overflow-y: auto;        /* scroll if long */
+  padding-right: 5px;
+}
+
+/* REMOVE CLAMP LIMIT */
+.card-text {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  overflow: visible !important;
+}
+/* 🔥 RESEND OTP BUTTON */
+.resend-btn {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #dc3545;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* HOVER */
+.resend-btn:hover {
+  text-decoration: underline;
+  color: #ff4b2b;
+}
+
+/* DISABLED */
+.resend-btn:disabled {
+  color: gray;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/* 🔥 AUTH BOX IMPROVEMENT */
+.auth-card-box {
+  width: 360px;
+  padding: 30px 25px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+/* INPUT */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+/* BUTTON */
+.main-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(45deg, #dc3545, #ff4b2b);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* HOVER */
+.main-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220,53,69,0.4);
+}
+
+/* SUCCESS BUTTON */
+.success-btn {
+  background: linear-gradient(45deg, #28a745, #20c997);
+}
+.extra {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.extra p {
+  margin-top: 6px;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 5;
+}
+.logout-btn {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 50%;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  font-size: 20px;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: #dc3545;
+  transform: scale(1.1);
 }

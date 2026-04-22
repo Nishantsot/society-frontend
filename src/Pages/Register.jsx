@@ -18,11 +18,27 @@ function Register() {
   const [otp, setOtp] = useState("");
   const [showOtp, setShowOtp] = useState(false);
   const [message, setMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // 👁
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [timer, setTimer] = useState(0);
+  const [loadingResend, setLoadingResend] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setMessage("");
+  };
+
+  const startTimer = () => {
+    setTimer(30);
+    const interval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
   };
 
   const handleRegister = async () => {
@@ -32,6 +48,7 @@ function Register() {
 
       if (res.data.includes("OTP")) {
         setShowOtp(true);
+        startTimer();
       }
 
     } catch (err) {
@@ -47,7 +64,6 @@ function Register() {
       });
 
       setMessage("✅ " + res.data);
-
       setTimeout(() => navigate("/login"), 1500);
 
     } catch (err) {
@@ -55,15 +71,29 @@ function Register() {
     }
   };
 
+  const handleResendOtp = async () => {
+    try {
+      setLoadingResend(true);
+
+      await registerUser(form);
+      setMessage("✅ OTP Resent");
+
+      startTimer();
+
+    } catch (err) {
+      setMessage("❌ Failed to resend OTP");
+    } finally {
+      setLoadingResend(false);
+    }
+  };
+
   return (
     <div className="auth-container">
 
-      {/* 🔥 FRAMER BOX */}
       <motion.div
         className="auth-card-box"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
       >
 
         <h2 className="auth-title">🚀 Register</h2>
@@ -75,13 +105,11 @@ function Register() {
           </div>
         )}
 
-        {/* 🟢 REGISTER FORM */}
         {!showOtp && (
           <>
             <input name="name" placeholder="Full Name" className="input-field" onChange={handleChange}/>
             <input name="email" placeholder="Email" className="input-field" onChange={handleChange}/>
 
-            {/* 🔥 PASSWORD WITH EYE */}
             <div className="password-box">
               <input
                 type={showPassword ? "text" : "password"}
@@ -111,19 +139,16 @@ function Register() {
               <option>FOURTH</option>
             </select>
 
-            {/* 🔥 BUTTON ANIMATION */}
             <motion.button
               className="main-btn"
               onClick={handleRegister}
               whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               Register
             </motion.button>
           </>
         )}
 
-        {/* 🔢 OTP SECTION */}
         {showOtp && (
           <>
             <input
@@ -140,6 +165,14 @@ function Register() {
             >
               Verify OTP
             </motion.button>
+
+            <button
+              className="resend-btn"
+              onClick={handleResendOtp}
+              disabled={timer > 0 || loadingResend}
+            >
+              {timer > 0 ? `Resend in ${timer}s` : "Resend OTP"}
+            </button>
           </>
         )}
 

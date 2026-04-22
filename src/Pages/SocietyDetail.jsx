@@ -96,7 +96,6 @@ function SocietyDetail() {
             </motion.div>
           ))}
 
-        const [selectedImg, setSelectedImg] = useState(null);
 
 {society.images?.length > 0 && (
   <div className="section-box">
