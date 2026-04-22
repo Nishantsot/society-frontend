@@ -11,12 +11,17 @@ function Login() {
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // 🔥 forgot states
   const [showForgot, setShowForgot] = useState(false);
+
   const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
   const [newPass, setNewPass] = useState("");
 
-  // 🔥 Auto redirect
+  const [step, setStep] = useState(1);
+  const [timer, setTimer] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  // 🔥 AUTO REDIRECT
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
@@ -33,7 +38,13 @@ function Login() {
 
   // 🔐 LOGIN
   const handleLogin = async () => {
+    if (!data.email || !data.password) {
+      return setMessage("❌ Enter email & password");
+    }
+
     try {
+      setLoading(true);
+
       const res = await loginUser(data);
 
       localStorage.setItem("token", res.data.token);
@@ -47,26 +58,83 @@ function Login() {
 
     } catch (err) {
       setMessage("❌ " + (err.response?.data || "Login Failed"));
+    } finally {
+      setLoading(false);
     }
   };
 
-  // 🔥 FORGOT PASSWORD
+  // ⏳ TIMER
+  const startTimer = () => {
+setTimer(120);
+    const interval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  // 🔥 SEND OTP
   const handleSendOtp = async () => {
+    if (!email) return setMessage("❌ Enter email");
+
+    try {
+      setLoading(true);
+
+      await forgotPassword({ email });
+
+      setMessage("✅ OTP sent to email");
+      setStep(2);
+      startTimer();
+
+    } catch {
+      setMessage("❌ Failed to send OTP");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔁 RESEND OTP
+  const handleResend = async () => {
     try {
       await forgotPassword({ email });
-      setMessage("✅ Reset link / OTP sent");
+      setMessage("✅ OTP resent");
+      startTimer();
     } catch {
-      setMessage("❌ Failed to send reset");
+      setMessage("❌ Resend failed");
     }
   };
 
+  // 🔐 RESET PASSWORD
   const handleReset = async () => {
+    if (!otp || !newPass) {
+      return setMessage("❌ Fill all fields");
+    }
+
     try {
-      await resetPassword({ email, newPassword: newPass });
+      setLoading(true);
+
+      await resetPassword({
+        email,
+        otp,
+        newPassword: newPass
+      });
+
       setMessage("✅ Password reset successful");
+
       setShowForgot(false);
+      setStep(1);
+      setEmail("");
+      setOtp("");
+      setNewPass("");
+
     } catch {
       setMessage("❌ Reset failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -118,16 +186,18 @@ function Login() {
             <motion.button
               className="login-btn"
               onClick={handleLogin}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              disabled={loading}
             >
-              Login
+              {loading ? "Logging..." : "Login"}
             </motion.button>
 
             <div className="extra">
               <span
                 className="link"
-                onClick={() => setShowForgot(true)}
+                onClick={() => {
+                  setShowForgot(true);
+                  setMessage("");
+                }}
               >
                 Forgot Password?
               </span>
@@ -142,31 +212,58 @@ function Login() {
           </>
         ) : (
           <>
-            <input
-              placeholder="Enter Email"
-              className="input-field"
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            {step === 1 && (
+              <>
+                <input
+                  placeholder="Enter Email"
+                  className="input-field"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
 
-            <button className="main-btn" onClick={handleSendOtp}>
-              Send Reset
-            </button>
+                <button className="main-btn" onClick={handleSendOtp}>
+                  Send OTP
+                </button>
+              </>
+            )}
 
-            <input
-              type="password"
-              placeholder="New Password"
-              className="input-field"
-              onChange={(e) => setNewPass(e.target.value)}
-            />
+            {step === 2 && (
+              <>
+                <input
+                  placeholder="Enter OTP"
+                  className="input-field"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
 
-            <button className="main-btn" onClick={handleReset}>
-              Reset Password
-            </button>
+                <input
+                  type="password"
+                  placeholder="New Password"
+                  className="input-field"
+                  value={newPass}
+                  onChange={(e) => setNewPass(e.target.value)}
+                />
+
+                <button className="main-btn" onClick={handleReset}>
+                  Reset Password
+                </button>
+
+                <button
+                  className="resend-btn"
+                  onClick={handleResend}
+                  disabled={timer > 0}
+                >
+                  {timer > 0 ? `Resend in ${timer}s` : "Resend OTP"}
+                </button>
+              </>
+            )}
 
             <p
               className="link"
-              onClick={() => setShowForgot(false)}
-              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setShowForgot(false);
+                setMessage("");
+              }}
             >
               ← Back to Login
             </p>
