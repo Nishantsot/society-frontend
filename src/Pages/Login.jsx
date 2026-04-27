@@ -21,7 +21,6 @@ function Login() {
   const [timer, setTimer] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  // 🔥 AUTO REDIRECT
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
@@ -36,7 +35,6 @@ function Login() {
     setMessage("");
   };
 
-  // 🔐 LOGIN
   const handleLogin = async () => {
     if (!data.email || !data.password) {
       return setMessage("❌ Enter email & password");

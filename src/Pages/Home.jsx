@@ -152,7 +152,7 @@ return (
             </div>
 
             <div className="card-body">
-              <h5 className="card-title">{society.title}</h5>
+              <h5 className="card-title ">{society.title}</h5>
               <p className="card-text scroll-desc">{society.desc}</p>
             </div>
 
