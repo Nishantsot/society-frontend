@@ -150,10 +150,12 @@ return (
                 }}
               />
             </div>
-
-        <div className="card-body custom-card-body">
+<div className="card-body custom-card-body pt-3">
   <h5 className="card-title">{society.title}</h5>
   <p className="card-text scroll-desc">{society.desc}</p>
+<a href="/login" className="btn btn-premium mt-3 w-100">
+  Login to Explore
+</a>
 </div>
           </motion.div>
 

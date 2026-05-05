@@ -1,7 +1,7 @@
 /* ===== GLOBAL ===== */
 
 body {
-  background: linear-gradient(-45deg, #94d3f7, #73aff3, #ffd6d6, #fff0f0);
+  background: linear-gradient(-45deg, #6dc7fc, #73aff3, #6aa9f1, #72c2f0);
   background-size: 400% 400%;
   animation: gradientMove 10s ease infinite;
   min-height: 100vh;
@@ -99,8 +99,10 @@ html {
 /* ===== CARDS ===== */
 
 .society-card {
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(10px);
+
+  background: rgba(0, 0, 0, 0.6);  /* dark */
+  color: white; 
+   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 15px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
@@ -1546,15 +1548,40 @@ body {
   transform: scale(1.1);
 }
 .custom-card-body {
-  color: white;
+  color: white !important;
   padding-top: 15px;
 }
 
 .custom-card-body .card-title {
-  padding-top: 8px;
-  color: white;
+  color: white !important;
+  padding-top: 10px;
 }
 
 .custom-card-body .card-text {
-  color: #f1f1f1;
+  color: #f1f1f1 !important;
+}
+/* 🔥 GLOBAL SPACING */
+.container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* CARD FIX */
+.card-body {
+  padding: 20px;
+}
+
+/* TITLE SPACING */
+.card-title {
+  margin-top: 10px;
+}
+
+/* SECTION GAP */
+.hero-bg {
+  margin-bottom: 50px;
+}
+
+/* SOCIETY CARD */
+.society-card {
+  padding: 20px;
 }

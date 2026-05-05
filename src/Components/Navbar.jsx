@@ -32,7 +32,7 @@ function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
           >
-            Society Portal
+          Adgips  Society Portal
           </motion.span>
 
         </Link>
