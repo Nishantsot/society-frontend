@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import axiosInstance from "../api/axios";
+import socket from "../socket";   // ← Yeh line add kardo
 
 function SocietyDetail() {
   const { id } = useParams();
@@ -10,6 +11,24 @@ function SocietyDetail() {
 
   const BASE_URL = import.meta.env.VITE_API_URL;
   const FILE_BASE = BASE_URL.replace("/api", "");
+
+  // Socket Connection
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("connect", () => {
+      console.log("✅ Socket Connected in Society Detail");
+    });
+
+    socket.on("connect_error", (err) => {
+      console.log("❌ Socket Error:", err.message);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("connect_error");
+    };
+  }, []);
 
   useEffect(() => {
     fetchData();

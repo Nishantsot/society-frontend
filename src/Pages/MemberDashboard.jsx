@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axiosInstance from "../api/axios";
 import { FiLogOut } from "react-icons/fi";
+import socket from "../socket";        // ← Yeh line already hai
 
 function MemberDashboard() {
   const [societies, setSocieties] = useState([]);
@@ -18,7 +19,26 @@ function MemberDashboard() {
     if (!user) navigate("/login");
   }, [navigate]);
 
-  // 🔥 FETCH DATA
+  // 🔥 SOCKET CONNECTION (Yeh useEffect add kardo)
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("connect", () => {
+      console.log("✅ Socket Connected Successfully");
+    });
+
+    socket.on("connect_error", (err) => {
+      console.log("❌ Socket Connection Error:", err.message);
+    });
+
+    // Cleanup
+    return () => {
+      socket.off("connect");
+      socket.off("connect_error");
+    };
+  }, []);
+
+  // 🔥 FETCH DATA (yeh already hai)
   const fetchData = async () => {
     try {
       const res = await axiosInstance.get("/user/societies");
@@ -32,54 +52,14 @@ function MemberDashboard() {
     fetchData();
   }, []);
 
-  // 🔥 CATEGORY FALLBACK (if backend doesn't send category)
-  const getCategory = (name = "") => {
-    name = name.toLowerCase();
-
-    if (name.includes("tech") || name.includes("gdgc") || name.includes("geek"))
-      return "TECH";
-
-    if (name.includes("dance") || name.includes("drama") || name.includes("art"))
-      return "CULTURAL";
-
-    return "NONTECH";
-  };
-
-  // 🔥 FILTER LOGIC
-  const filtered = societies.filter((s) => {
-    const matchSearch = s.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    const matchCategory =
-      category === "ALL" ||
-      (s.category
-        ? s.category === category
-        : getCategory(s.name) === category);
-
-    return matchSearch && matchCategory;
-  });
-
-  // 🔥 IMAGE BASE
-  const FILE_BASE = import.meta.env.VITE_API_URL.replace("/api", "");
-
-  const getImageUrl = (url) => {
-    if (!url) return "/no-image.png";
-    if (url.startsWith("http")) return url;
-    return `${FILE_BASE}${url}`;
-  };
-
-  const handleImageError = (e) => {
-    if (e.target.dataset.failed) return;
-    e.target.dataset.failed = "true";
-    e.target.src = "/no-image.png";
-  };
-
-  // LOGOUT
+  // LOGOUT (updated)
   const logout = () => {
+    socket.disconnect();
     localStorage.clear();
     navigate("/login");
   };
+
+  // ... baaki pura code same rahega (getCategory, filtered, return etc.)
 
   return (
     <div className="dashboard">
