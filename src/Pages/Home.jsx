@@ -151,11 +151,10 @@ return (
               />
             </div>
 
-            <div className="card-body">
-              <h5 className="card-title ">{society.title}</h5>
-              <p className="card-text scroll-desc">{society.desc}</p>
-            </div>
-
+        <div className="card-body custom-card-body">
+  <h5 className="card-title">{society.title}</h5>
+  <p className="card-text scroll-desc">{society.desc}</p>
+</div>
           </motion.div>
 
         </SwiperSlide>

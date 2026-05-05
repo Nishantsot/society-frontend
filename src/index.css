@@ -331,13 +331,14 @@ html {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-/* CARD BODY FIX */
 .card-body {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
 
+  color: white;          /* 🔥 make text white */
+  padding-top: 15px;     /* 🔥 top spacing */
+}
 /* DESCRIPTION FIX */
 .card-text {
   flex-grow: 1;
@@ -1543,4 +1544,17 @@ body {
 .logout-btn:hover {
   background: #dc3545;
   transform: scale(1.1);
+}
+.custom-card-body {
+  color: white;
+  padding-top: 15px;
+}
+
+.custom-card-body .card-title {
+  padding-top: 8px;
+  color: white;
+}
+
+.custom-card-body .card-text {
+  color: #f1f1f1;
 }

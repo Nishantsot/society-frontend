@@ -63,17 +63,17 @@ function MemberDashboard() {
   // 🔥 IMAGE BASE
   const FILE_BASE = import.meta.env.VITE_API_URL.replace("/api", "");
 
-  const getImageUrl = (url) => {
-    if (!url) return "/no-image.png";
-    if (url.startsWith("http")) return url;
-    return `${FILE_BASE}${url}`;
-  };
+ const getImageUrl = (url) => {
+  if (!url) return "https://via.placeholder.com/300";
+  if (url.startsWith("http")) return url;
+  return `${FILE_BASE}${url}`;
+};
 
-  const handleImageError = (e) => {
-    if (e.target.dataset.failed) return;
-    e.target.dataset.failed = "true";
-    e.target.src = "/no-image.png";
-  };
+const handleImageError = (e) => {
+  if (e.target.dataset.failed) return;
+  e.target.dataset.failed = "true";
+  e.target.src = "https://via.placeholder.com/300";
+};
 
   // LOGOUT
   const logout = () => {
