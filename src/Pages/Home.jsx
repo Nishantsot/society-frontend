@@ -163,7 +163,50 @@ return (
       ))}
     </Swiper>
   </div>
+<div className="container py-5">
 
+  <h2 className="text-center fw-bold mb-5">
+    Why Join a Society?
+  </h2>
+
+  <div className="row">
+
+    <div className="col-md-4 mb-4">
+      <div className="card shadow border-0 h-100 text-center p-4">
+        <h1>🚀</h1>
+        <h5>Skill Development</h5>
+        <p>
+          Learn practical skills through workshops,
+          competitions and projects.
+        </p>
+      </div>
+    </div>
+
+    <div className="col-md-4 mb-4">
+      <div className="card shadow border-0 h-100 text-center p-4">
+        <h1>🤝</h1>
+        <h5>Networking</h5>
+        <p>
+          Connect with seniors, faculty and industry
+          professionals.
+        </p>
+      </div>
+    </div>
+
+    <div className="col-md-4 mb-4">
+      <div className="card shadow border-0 h-100 text-center p-4">
+        <h1>🏆</h1>
+        <h5>Achievements</h5>
+        <p>
+          Participate in hackathons, events and
+          competitions.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
   <footer className="footer-box">
     <p className="mb-0">© ADGIPS Societies Management Portal</p>
   </footer>

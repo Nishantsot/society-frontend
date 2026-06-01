@@ -43,3 +43,56 @@ export const getMySocieties = (email) => {
 export const getSocietyById = (id) => {
   return axiosInstance.get(`/user/society/${id}`);
 };
+export const getAdminSocieties = (email) => {
+
+  return axiosInstance.get(
+    `/admin/societies?email=${email}`
+  );
+};
+
+// =====================================================
+// 🔥 ADMIN SINGLE SOCIETY
+// =====================================================
+
+export const getAdminSocietyById = (id) => {
+
+  return axiosInstance.get(
+    `/admin/society/${id}`
+  );
+};
+
+// =====================================================
+// 🔥 UPDATE SOCIETY
+// =====================================================
+
+export const updateSociety = (id, data) => {
+
+  return axiosInstance.put(
+    `/admin/society/${id}`,
+    data
+  );
+};
+
+// =====================================================
+// 🔥 DELETE SOCIETY
+// =====================================================
+
+export const deleteSociety = (id) => {
+
+  return axiosInstance.delete(
+    `/admin/society/${id}`
+  );
+};
+
+// =====================================================
+// 🔓 LOGOUT
+// =====================================================
+
+export const logoutUser = () => {
+
+  localStorage.removeItem("token");
+
+  localStorage.removeItem("user");
+
+  window.location.href = "/login";
+};

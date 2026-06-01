@@ -24,9 +24,9 @@ function Login() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      user.role === "ADMIN"
-        ? navigate("/admin-dashboard")
-        : navigate("/member-dashboard");
+    user.role === "ADMIN"
+  ? navigate("/admin")
+  : navigate("/member-dashboard");
     }
   }, [navigate]);
 
@@ -50,9 +50,9 @@ function Login() {
 
       setMessage("✅ Login Successful");
 
-      res.data.role === "ADMIN"
-        ? navigate("/admin-dashboard")
-        : navigate("/member-dashboard");
+     res.data.role === "ADMIN"
+  ? navigate("/admin")
+  : navigate("/member-dashboard");
 
     } catch (err) {
       setMessage("❌ " + (err.response?.data || "Login Failed"));

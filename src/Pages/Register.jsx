@@ -8,12 +8,13 @@ function Register() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    branch: "CSE",
-    year: "THIRD"
-  });
+  name: "",
+  email: "",
+  password: "",
+  branch: "CSE",
+  year: "THIRD",
+  role: "MEMBER"
+});
 
   const [otp, setOtp] = useState("");
   const [showOtp, setShowOtp] = useState(false);
@@ -138,6 +139,21 @@ function Register() {
               <option>THIRD</option>
               <option>FOURTH</option>
             </select>
+            <select
+  name="role"
+  className="input-field"
+  onChange={handleChange}
+>
+
+  <option value="MEMBER">
+    MEMBER
+  </option>
+
+  <option value="ADMIN">
+    ADMIN
+  </option>
+
+</select>
 
             <motion.button
               className="main-btn"
